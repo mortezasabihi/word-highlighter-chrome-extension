@@ -21,7 +21,7 @@
       "js": ["contentScript.js"]
     }
   ],
-  "permissions": ["tabs", "bookmarks"],
+  "permissions": ["tabs", "storage"],
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
