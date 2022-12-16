@@ -4,13 +4,31 @@ const Header: React.FC = () => {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    chrome.storage.local.set({ active });
-  }, [active]);
+    const fetchActive = async () => {
+      const result = await chrome.storage.local.get(["isActive"]);
+      setActive(result.isActive);
+    };
+
+    fetchActive();
+  }, []);
+
+  const handleOnChange = async ({
+    target: { checked },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    await chrome.storage.local.set({ isActive: checked });
+    setActive(checked);
+  };
 
   return (
     <div className="navbar bg-base-100 px-4">
       <div className="flex-1">
-        <h1 className="text-xl normal-case">Word Highlighter</h1>
+        <h1
+          className={`text-xl normal-case ${
+            active ? "text-info" : "text-neutral-content"
+          }`}
+        >
+          Word Highlighter
+        </h1>
       </div>
       <div className="flex-none">
         <div className="form-control">
@@ -19,8 +37,8 @@ const Header: React.FC = () => {
             <input
               type="checkbox"
               className="toggle-info toggle"
-              onChange={(e) => setActive(e.target.checked)}
-              defaultChecked={active}
+              onChange={handleOnChange}
+              checked={active}
             />
           </label>
         </div>
