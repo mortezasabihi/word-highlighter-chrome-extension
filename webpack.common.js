@@ -4,6 +4,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const HtmlPlugin = require("html-webpack-plugin");
 const tailwindcss = require("tailwindcss");
 const autoprefixer = require("autoprefixer");
+const webpack = require("webpack");
 
 module.exports = /** @type { import('webpack').Configuration } */ ({
   entry: {
@@ -43,6 +44,9 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
     ],
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      React: "react",
+    }),
     new CopyPlugin({
       patterns: [
         {
