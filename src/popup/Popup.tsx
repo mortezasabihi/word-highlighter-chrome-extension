@@ -9,6 +9,7 @@ const Popup = (
   </div>
 );
 
+document.querySelector("body").classList.add("w-[400px]", "h-[400px]");
 const container = document.createElement("div");
 document.body.appendChild(container);
 const root = createRoot(container);
