@@ -1,10 +1,11 @@
 import { createRoot } from "react-dom/client";
-import { Header } from "./components";
+import { Header, Body } from "./components";
 import "../assets/tailwind.css";
 
 const Popup = (
-  <div>
+  <div className="flex h-screen select-none flex-col">
     <Header />
+    <Body />
   </div>
 );
 
