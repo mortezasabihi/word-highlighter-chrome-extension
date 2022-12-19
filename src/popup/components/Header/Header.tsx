@@ -20,23 +20,23 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className="navbar bg-base-100 px-4">
-      <div className="flex-1">
+    <div className="whir-navbar whir-bg-base-100 whir-px-4">
+      <div className="whir-flex-1">
         <h1
-          className={`text-xl normal-case ${
-            active ? "text-info" : "text-neutral-content"
+          className={`whir-text-xl whir-normal-case ${
+            active ? "whir-text-info" : "whir-text-neutral-content"
           }`}
         >
           Word Highlighter
         </h1>
       </div>
-      <div className="flex-none">
-        <div className="form-control">
-          <label className="label cursor-pointer">
-            <span className="label-text mr-3">Active</span>
+      <div className="whir-flex-none">
+        <div className="whir-form-control">
+          <label className="whir-label whir-cursor-pointer">
+            <span className="whir-label-text whir-mr-3">Active</span>
             <input
               type="checkbox"
-              className="toggle-info toggle"
+              className="whir-toggle-info whir-toggle"
               onChange={handleOnChange}
               checked={active}
             />

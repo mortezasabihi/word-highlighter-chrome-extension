@@ -3,13 +3,15 @@ import { Header, Body } from "./components";
 import "../assets/tailwind.css";
 
 const Popup = (
-  <div className="flex h-screen select-none flex-col">
+  <div className="whir-flex whir-h-screen whir-select-none whir-flex-col">
     <Header />
     <Body />
   </div>
 );
 
-document.querySelector("body").classList.add("w-[400px]", "h-[400px]");
+document
+  .querySelector("body")
+  .classList.add("whir-w-[400px]", "whir-h-[400px]");
 const container = document.createElement("div");
 document.body.appendChild(container);
 const root = createRoot(container);

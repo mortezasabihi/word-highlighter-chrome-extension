@@ -7,11 +7,13 @@ const Body: React.FC = () => {
 
   return (
     <div
-      className={`relative flex-1 bg-base-300 ${
-        open ? "overflow-hidden" : "overflow-y-auto overflow-x-hidden"
+      className={`whir-relative whir-flex-1 whir-bg-base-300 ${
+        open
+          ? "whir-overflow-hidden"
+          : "whir-overflow-y-auto whir-overflow-x-hidden"
       }`}
     >
-      <ul className="h-full w-full">
+      <ul className="whir-h-full whir-w-full">
         <Item onClick={() => setOpen(true)} />
         <Item onClick={() => setOpen(true)} />
         <Item onClick={() => setOpen(true)} />
