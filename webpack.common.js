@@ -11,13 +11,13 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
     popup: path.resolve("./src/popup/Popup.tsx"),
     options: path.resolve("./src/options/Options.tsx"),
     background: path.resolve("./src/background/background.ts"),
-    contentScript: path.resolve("./src/contentScript/contentScript.ts"),
+    contentScript: path.resolve("./src/contentScript/index.tsx"),
   },
   module: {
     rules: [
       {
-        use: "ts-loader",
-        test: /\.tsx$/,
+        test: /\.(ts|tsx)$/,
+        loader: "babel-loader",
         exclude: /node_modules/,
       },
       {
@@ -66,7 +66,9 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
   },
   optimization: {
     splitChunks: {
-      chunks: "all",
+      chunks(chunk) {
+        return chunk.name !== "contentScript";
+      },
     },
   },
 });
