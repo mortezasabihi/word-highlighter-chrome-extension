@@ -1,9 +1,10 @@
-import tw, { GlobalStyles as BaseStyles } from "twin.macro";
+import { GlobalStyles as BaseStyles } from "twin.macro";
 import { createGlobalStyle } from "styled-components";
+import "@fontsource/open-sans";
 
 const Global = createGlobalStyle`
   body {
-    ${tw`antialiased`}
+    font-family: "Open Sans", sans-serif;
   }
 `;
 

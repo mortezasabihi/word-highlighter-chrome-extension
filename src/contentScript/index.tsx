@@ -8,12 +8,20 @@ function init() {
   document.body.appendChild(appContainer);
 
   const shadow = appContainer.attachShadow({ mode: "open" });
+  shadow.innerHTML = `
+    <style>
+      :host {
+        all: initial!important;
+        font-family: "Open Sans", sans-serif!important;
+      }
+    </style>
+  `;
   const renderIn = document.createElement("div");
   shadow.appendChild(renderIn);
   const root = createRoot(renderIn);
 
   root.render(
-    <StyleSheetManager target={renderIn}>
+    <StyleSheetManager target={shadow}>
       <ContentScript />
     </StyleSheetManager>
   );

@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import tw from "twin.macro";
 import GlobalStyles from "../styles/GlobalStyles";
-
-const Popover = tw.div`absolute z-50 flex max-h-8 max-w-[fit-content] items-center whitespace-nowrap rounded bg-red-600 p-2 text-white transition-all`;
+import { Popover } from "./Popover";
 
 const ContentScript: React.FC = () => {
   const [xLines, setXLines] = useState(0);
@@ -66,11 +64,7 @@ const ContentScript: React.FC = () => {
   return (
     <>
       <GlobalStyles />
-      {showPopover && (
-        <Popover style={{ left: `${xLines}px`, top: `${yLines}px` }}>
-          <span role="button">popover</span>
-        </Popover>
-      )}
+      {showPopover && <Popover x={xLines} y={yLines} />}
     </>
   );
 };

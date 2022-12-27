@@ -2,8 +2,6 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlPlugin = require("html-webpack-plugin");
-const tailwindcss = require("tailwindcss");
-const autoprefixer = require("autoprefixer");
 const webpack = require("webpack");
 
 module.exports = /** @type { import('webpack').Configuration } */ ({
@@ -22,15 +20,13 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
       },
       {
         use: [
-          "style-loader",
-          "css-loader",
           {
-            loader: "postcss-loader",
+            loader: "style-loader",
+          },
+          {
+            loader: "css-loader",
             options: {
-              postcssOptions: {
-                ident: "postcss",
-                plugins: [tailwindcss, autoprefixer],
-              },
+              url: true,
             },
           },
         ],
@@ -39,7 +35,7 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
       {
         use: "assets/resources",
         type: "asset/resource",
-        test: /\.(png|jpg|jpeg|gif|woff|woff2|ttf|eot|svg)$/,
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
       },
     ],
   },
@@ -63,6 +59,7 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
   output: {
     filename: "[name].js",
     clean: true,
+    publicPath: "",
   },
   optimization: {
     splitChunks: {

@@ -19,6 +19,7 @@
     "@emotion/css": "^11.10.5",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@fontsource/open-sans": "^4.5.13",
     "@heroicons/react": "^2.0.13",
     "daisyui": "^2.45.0",
     "react": "^18.2.0",
@@ -79,11 +80,5 @@
     "pretty-quick": "pretty-quick",
     "dev": "webpack --watch --progress --config webpack.dev.js",
     "build": "webpack --progress --config webpack.prod.js"
-  },
-  "babelMacros": {
-    "twin": {
-      "config": "tailwind.config.js",
-      "preset": "styled-components"
-    }
   }
 }
