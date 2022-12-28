@@ -11,7 +11,7 @@ function init() {
   shadow.innerHTML = `
     <style>
       :host {
-        all: initial!important;
+        all: unset;
         font-family: "Open Sans", sans-serif!important;
       }
     </style>
