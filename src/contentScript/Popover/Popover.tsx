@@ -7,6 +7,7 @@ import {
 interface Props {
   x: number;
   y: number;
+  onCopyClick: () => void;
 }
 
 const popoverStyles = css`
@@ -21,13 +22,13 @@ const popoverStyles = css`
   }
 `;
 
-const Popover: React.FC<Props> = ({ x, y }) => {
+const Popover: React.FC<Props> = ({ x, y, onCopyClick }) => {
   return (
     <div css={popoverStyles} style={{ left: `${x}px`, top: `${y}px` }}>
       <button role="button" title="Highlight">
         <PlusCircleIcon />
       </button>
-      <button role="button" title="Copy to clipboard">
+      <button onClick={onCopyClick} role="button" title="Copy to clipboard">
         <DocumentDuplicateIcon />
       </button>
     </div>

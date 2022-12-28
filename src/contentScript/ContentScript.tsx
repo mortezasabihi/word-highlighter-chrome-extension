@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import GlobalStyles from "../styles/GlobalStyles";
 import { Popover } from "./Popover";
+import { useCopyToClipboard } from "../hooks";
 
 const ContentScript: React.FC = () => {
   const [xLines, setXLines] = useState(0);
@@ -61,10 +62,19 @@ const ContentScript: React.FC = () => {
     return () => window.removeEventListener("mouseup", onSelectText);
   });
 
+  const [_, copy] = useCopyToClipboard();
+
+  const onCopyText = async () => {
+    await copy(selectedText);
+    hidePopover();
+  };
+
   return (
     <>
       <GlobalStyles />
-      {showPopover && <Popover x={xLines} y={yLines} />}
+      {showPopover && (
+        <Popover x={xLines} y={yLines} onCopyClick={onCopyText} />
+      )}
     </>
   );
 };
