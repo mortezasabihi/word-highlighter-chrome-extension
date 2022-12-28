@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { nanoid } from "nanoid";
 import GlobalStyles from "../styles/GlobalStyles";
 import { Popover } from "./Popover";
 import { useCopyToClipboard } from "../hooks";
@@ -8,6 +9,8 @@ const ContentScript: React.FC = () => {
   const [yLines, setYLines] = useState(0);
   const [selectedText, setSelectedText] = useState("");
   const [showPopover, setShowPopover] = useState(false);
+
+  const [_, copy] = useCopyToClipboard();
 
   const hidePopover = () => setShowPopover(false);
 
@@ -51,7 +54,7 @@ const ContentScript: React.FC = () => {
     }
 
     setXLines(x + width / 10);
-    setYLines(y + window.scrollY - 34);
+    setYLines(y + window.scrollY - 40);
     setSelectedText(selectedText);
     setShowPopover(true);
   };
@@ -60,20 +63,42 @@ const ContentScript: React.FC = () => {
     window.addEventListener("mouseup", onSelectText);
 
     return () => window.removeEventListener("mouseup", onSelectText);
-  });
-
-  const [_, copy] = useCopyToClipboard();
+  }, []);
 
   const onCopyText = async () => {
     await copy(selectedText);
     hidePopover();
   };
 
+  const onHighlight = () => {
+    const isHighlighted = !!selectedText && showPopover;
+
+    if (isHighlighted) {
+      const selection = window.getSelection();
+      const selectionRange = selection.getRangeAt(0);
+      const mark = document.createElement("mark");
+
+      mark.textContent = selection.toString();
+      mark.dataset.highlightId = nanoid();
+      mark.classList.add("highlight");
+
+      selectionRange.deleteContents();
+      selectionRange.insertNode(mark);
+
+      hidePopover();
+    }
+  };
+
   return (
     <>
       <GlobalStyles />
       {showPopover && (
-        <Popover x={xLines} y={yLines} onCopyClick={onCopyText} />
+        <Popover
+          x={xLines}
+          y={yLines}
+          onCopyClick={onCopyText}
+          onHighlightClick={onHighlight}
+        />
       )}
     </>
   );
