@@ -66,6 +66,7 @@ const ContentScript: React.FC = () => {
   const onCopyText = async () => {
     await copy(selectedText);
     hidePopover();
+    window.getSelection().removeAllRanges();
   };
 
   const onHighlight = () => {
