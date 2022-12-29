@@ -25,10 +25,8 @@ const ContentScript: React.FC = () => {
     }
 
     const selectionRange = selection.getRangeAt(0);
-
     const startNode = selectionRange.startContainer.parentNode;
     const endNode = selectionRange.endContainer.parentNode;
-
     const highlightable = window.document;
 
     if (
@@ -53,8 +51,8 @@ const ContentScript: React.FC = () => {
       return;
     }
 
-    setXLines(x + width / 10);
-    setYLines(y + window.scrollY - 40);
+    setXLines(x + width / 2);
+    setYLines(y + window.scrollY - 10);
     setSelectedText(selectedText);
     setShowPopover(true);
   };
@@ -77,9 +75,10 @@ const ContentScript: React.FC = () => {
       const selection = window.getSelection();
       const selectionRange = selection.getRangeAt(0);
       const mark = document.createElement("mark");
+      const id = nanoid();
 
       mark.textContent = selection.toString();
-      mark.dataset.highlightId = nanoid();
+      mark.dataset.highlightId = id;
       mark.classList.add("highlight");
 
       selectionRange.deleteContents();
