@@ -1,22 +1,12 @@
-import { useEffect, useState } from "react";
 import tw from "twin.macro";
+import { useChromeStorage } from "../../../hooks";
 
 const Header: React.FC = () => {
-  const [active, setActive] = useState(false);
-
-  useEffect(() => {
-    const fetchActive = async () => {
-      const result = await chrome.storage.local.get(["isActive"]);
-      setActive(result.isActive);
-    };
-
-    fetchActive();
-  }, []);
+  const [active, setActive] = useChromeStorage("isActive", false);
 
   const handleOnChange = async ({
     target: { checked },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    await chrome.storage.local.set({ isActive: checked });
     setActive(checked);
   };
 
