@@ -2,13 +2,16 @@ import tw, { css } from "twin.macro";
 import {
   PlusCircleIcon,
   DocumentDuplicateIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 
 interface Props {
   x: number;
   y: number;
+  editMode: boolean;
   onCopyClick: () => void;
   onHighlightClick: () => void;
+  onDeleteClick: () => void;
 }
 
 const popoverStyles = css`
@@ -24,13 +27,26 @@ const popoverStyles = css`
   }
 `;
 
-const Popover: React.FC<Props> = ({ x, y, onCopyClick, onHighlightClick }) => {
+const Popover: React.FC<Props> = ({
+  x,
+  y,
+  editMode,
+  onCopyClick,
+  onHighlightClick,
+  onDeleteClick,
+}) => {
   return (
     <div css={popoverStyles} style={{ left: `${x}px`, top: `${y}px` }}>
-      <button onClick={onHighlightClick} role="button" title="Highlight">
-        <PlusCircleIcon />
-      </button>
-      <button onClick={onCopyClick} role="button" title="Copy to clipboard">
+      {editMode ? (
+        <button onClick={onDeleteClick} role="button" title="Delete">
+          <TrashIcon />
+        </button>
+      ) : (
+        <button onClick={onHighlightClick} role="button" title="Highlight">
+          <PlusCircleIcon />
+        </button>
+      )}
+      <button onClick={onCopyClick} role="button" title="Copy to Clipboard">
         <DocumentDuplicateIcon />
       </button>
     </div>

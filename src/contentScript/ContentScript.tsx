@@ -9,14 +9,20 @@ const ContentScript: React.FC = () => {
   const [yLines, setYLines] = useState(0);
   const [selectedText, setSelectedText] = useState("");
   const [showPopover, setShowPopover] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [selectedHighlight, setSelectedHighlight] = useState("");
 
   const [_, copy] = useCopyToClipboard();
 
   const hidePopover = () => setShowPopover(false);
 
-  const onSelectText = () => {
+  const onSelectText = (e: MouseEvent) => {
+    const targetElement = e.target as HTMLDivElement;
+    if (targetElement.id === "word-highlighter-chrome-extension") return;
+
     const selection = window.getSelection();
     const selectedText = selection.toString().trim();
+    setEditMode(false);
 
     if (!selectedText) {
       hidePopover();
@@ -86,7 +92,39 @@ const ContentScript: React.FC = () => {
       selectionRange.insertNode(mark);
 
       hidePopover();
+
+      const element = document.querySelector(
+        `mark.highlight[data-highlight-id="${id}"]`
+      );
+
+      element.addEventListener("mouseover", () => onMouseOver(element, id));
     }
+  };
+
+  const onMouseOver = (element: Element, id: string) => {
+    const { x, y, width } = element.getBoundingClientRect();
+
+    setSelectedText(element.innerHTML.trim());
+    setXLines(x + width / 2);
+    setYLines(y + window.scrollY - 5);
+    setShowPopover(true);
+    setEditMode(true);
+    setSelectedHighlight(id);
+  };
+
+  const onDelete = () => {
+    const id = selectedHighlight;
+    const element = document.querySelector(
+      `mark.highlight[data-highlight-id="${id}"]`
+    );
+    const parent = element.parentElement;
+    const textNode = document.createTextNode(element.innerHTML);
+
+    parent.replaceChild(textNode, element);
+
+    hidePopover();
+
+    element.removeEventListener("mouseover", () => onMouseOver(element, id));
   };
 
   return (
@@ -96,8 +134,10 @@ const ContentScript: React.FC = () => {
         <Popover
           x={xLines}
           y={yLines}
+          editMode={editMode}
           onCopyClick={onCopyText}
           onHighlightClick={onHighlight}
+          onDeleteClick={onDelete}
         />
       )}
     </>
