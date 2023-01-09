@@ -1,17 +1,27 @@
 import { createRoot } from "react-dom/client";
+import tw from "twin.macro";
+import { createGlobalStyle } from "styled-components";
+import GlobalStyles from "../styles/GlobalStyles";
 import { Header, Body } from "./components";
-import "../assets/tailwind.css";
+
+const Global = createGlobalStyle`
+  body {
+    ${tw`w-[400px]`};
+    ${tw`h-[400px]`};
+  }
+`;
 
 const Popup = (
-  <div className="whir-flex whir-h-screen whir-select-none whir-flex-col">
-    <Header />
-    <Body />
-  </div>
+  <>
+    <GlobalStyles />
+    <Global />
+    <div tw="flex h-screen select-none flex-col">
+      <Header />
+      <Body />
+    </div>
+  </>
 );
 
-document
-  .querySelector("body")
-  .classList.add("whir-w-[400px]", "whir-h-[400px]");
 const container = document.createElement("div");
 document.body.appendChild(container);
 const root = createRoot(container);

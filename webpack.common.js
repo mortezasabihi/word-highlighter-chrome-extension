@@ -2,8 +2,6 @@
 const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlPlugin = require("html-webpack-plugin");
-const tailwindcss = require("tailwindcss");
-const autoprefixer = require("autoprefixer");
 const webpack = require("webpack");
 
 module.exports = /** @type { import('webpack').Configuration } */ ({
@@ -11,26 +9,24 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
     popup: path.resolve("./src/popup/Popup.tsx"),
     options: path.resolve("./src/options/Options.tsx"),
     background: path.resolve("./src/background/background.ts"),
-    contentScript: path.resolve("./src/contentScript/contentScript.ts"),
+    contentScript: path.resolve("./src/contentScript/index.tsx"),
   },
   module: {
     rules: [
       {
-        use: "ts-loader",
-        test: /\.tsx$/,
+        test: /\.(ts|tsx)$/,
+        loader: "babel-loader",
         exclude: /node_modules/,
       },
       {
         use: [
-          "style-loader",
-          "css-loader",
           {
-            loader: "postcss-loader",
+            loader: "style-loader",
+          },
+          {
+            loader: "css-loader",
             options: {
-              postcssOptions: {
-                ident: "postcss",
-                plugins: [tailwindcss, autoprefixer],
-              },
+              url: true,
             },
           },
         ],
@@ -39,7 +35,7 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
       {
         use: "assets/resources",
         type: "asset/resource",
-        test: /\.(png|jpg|jpeg|gif|woff|woff2|ttf|eot|svg)$/,
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
       },
     ],
   },
@@ -63,10 +59,13 @@ module.exports = /** @type { import('webpack').Configuration } */ ({
   output: {
     filename: "[name].js",
     clean: true,
+    publicPath: "",
   },
   optimization: {
     splitChunks: {
-      chunks: "all",
+      chunks(chunk) {
+        return chunk.name !== "contentScript";
+      },
     },
   },
 });
